@@ -1,0 +1,28 @@
+execution:
+- concurrency: 2
+  throughput: 500
+  ramp-up: 5s
+  hold-for: 10m
+  steps: 1
+  scenario: product-services-prototype
+
+reporting:
+- module: final-stats
+  summary: false
+  percentiles: false
+  failed-labels: false
+  test-duration: false
+  dump-xml: performance_test_result.xml
+  dump-csv: performance_test_result.csv
+
+scenarios:
+  product-services-prototype:
+    timeout: 5s
+    retrieve-resources: false
+    store-cache: false
+    store-cookie: false
+    default-address: localhost
+    headers:
+      Connection: 'Keep-Alive'
+    requests:
+    - /offers
