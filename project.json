@@ -1,0 +1,6 @@
+{
+    "name" : "product-services-prototype",
+    "packaging" : {
+        "type" : "spec"
+    }
+}
