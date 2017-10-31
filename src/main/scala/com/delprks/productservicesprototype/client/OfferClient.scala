@@ -93,7 +93,8 @@ class OfferClient(database: Database)
 
   def useFilters(filter: OfferFilter): String = {
     val filters: List[String] = List(
-      useStatusFilter(filter)
+      useStatusFilter(filter),
+      useUserIdFilter(filter)
     )
 
     val filterQueries = filters.filter(_.nonEmpty)
@@ -109,6 +110,11 @@ class OfferClient(database: Database)
     s"status IN ${toSqlStringSet(filter.status.map(_.toString))}"
   } else {
     EmptyQuery
+  }
+
+  private def useUserIdFilter(filter: OfferFilter) = filter.userId match {
+    case Some(userId) => s"user_id = ${userId}"
+    case _ => EmptyQuery
   }
 
   def offers(offset: Int, limit: Int, filter: OfferFilter = OfferFilter()): Future[Seq[Offer]] = {

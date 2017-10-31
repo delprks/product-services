@@ -27,8 +27,11 @@ trait FilterDirectives {
     case _ => provide(List())
   }
 
-
   def isValidStatus(programmeType: String): Boolean =
     programmeType.split(",").forall(SupportedStatusTypes.contains)
 
+  def userId: Directive1[Option[Int]] = parameter("user_id".as[Int].?).flatMap {
+    case Some(userId) => provide(Some(userId))
+    case _ => provide(None)
+  }
 }
