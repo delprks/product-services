@@ -6,9 +6,9 @@ import com.delprks.productservicesprototype.api.rejection.InvalidStatusTypeRejec
 import com.delprks.productservicesprototype.domain.Status
 
 trait FilterDirectives {
-  val SupportedStatusTypes = Set("available", "pending", "expired")
+  private val SupportedStatusTypes = Set("available", "pending", "expired")
 
-  def availabilityStatus: Directive1[Seq[Status.Type]] = parameter("availabilityStatus".as[String].?).flatMap {
+  def availabilityStatus: Directive1[Seq[Status.Type]] = parameter("status".as[String].?).flatMap {
     case Some(statusType) =>
       isValidStatus(statusType) match {
         case true => provide {
@@ -24,7 +24,7 @@ trait FilterDirectives {
         case false => reject(InvalidStatusTypeRejection())
       }
 
-    case x => provide(List())
+    case _ => provide(List())
   }
 
 
