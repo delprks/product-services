@@ -18,7 +18,7 @@ trait DatabaseOperations {
       sqlu"""
         CREATE TABLE main.offer
         (
-          id INTEGER PRIMARY KEY NOT NULL,
+          id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL,
           user_id INT NOT NULL,
           title VARCHAR(255) NOT NULL,
           description VARCHAR(755) NOT NULL,
