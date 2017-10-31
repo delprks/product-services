@@ -17,3 +17,8 @@ case class InvalidPageLimitRejection(maximumPageLimit: Int) extends ProductServi
   val statusCode = StatusCodes.BadRequest
   val message = s"Page limit must be between 0 and $maximumPageLimit"
 }
+
+case class InvalidStatusTypeRejection() extends ProductServicesPrototypeRejection {
+  val statusCode = StatusCodes.BadRequest
+  val message = s"Invalid value for status. Values supported: available, pending, and expired, or comma-separated combinations"
+}

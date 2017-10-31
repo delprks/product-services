@@ -3,7 +3,7 @@ package com.delprks.productservicesprototype.client
 import java.sql.Timestamp
 
 import com.delprks.productservicesprototype.config.Config
-import com.delprks.productservicesprototype.domain.{Status, Offer}
+import com.delprks.productservicesprototype.domain.Offer
 import slick.driver.PostgresDriver.api._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -99,14 +99,14 @@ class OfferClient(database: Database)
     val filterQueries = filters.filter(_.nonEmpty)
 
     if (filterQueries nonEmpty) {
-      filterQueries mkString("AND ", " AND ", "")
+      filterQueries mkString("WHERE ", " AND ", "")
     } else {
       EmptyQuery
     }
   }
 
   private def useStatusFilter(filter: OfferFilter) = if (filter.status.nonEmpty) {
-    s"type IN ${toSqlStringSet(filter.status.map(_.toString))}"
+    s"status IN ${toSqlStringSet(filter.status.map(_.toString))}"
   } else {
     EmptyQuery
   }
