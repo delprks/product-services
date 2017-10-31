@@ -15,7 +15,6 @@ class StatusSpec extends Specification
         status must be equalTo OK
         contentType must be equalTo `application/json`
         responseAs[ApiStatus] must be equalTo ApiStatus("OK")
-        header("Cache-Control").get.value must be equalTo "no-cache, no-store, must-revalidate"
       }
     }
   }

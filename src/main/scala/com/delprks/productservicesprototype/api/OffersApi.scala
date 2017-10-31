@@ -23,35 +23,31 @@ trait OffersApi extends JsonSerializers
   val offerRoutes: Route = {
     path("offers") {
       get {
-        respondWithCacheHeaders {
-          paginate(defaultPageLimit, maximumPageLimit) { pagination =>
-            sort { offerSort =>
-              extractFilteringParameters {
-                case (availabilityStatus) =>
-                  onComplete(toResponse(offerSchemaUrl, pagination) {
-                    log.info("/offers")
-                    offersDataSource.offers(
-                      pagination.limit,
-                      pagination.offset,
-                      OfferFilter(status = availabilityStatus)
-                    )
-                  }) {
-                    case Success(response) => complete(response)
-                    case Failure(exception) => routingExceptionHandler(exception)
-                  }
-              }
+        paginate(defaultPageLimit, maximumPageLimit) { pagination =>
+          sort { offerSort =>
+            extractFilteringParameters {
+              case (availabilityStatus) =>
+                onComplete(toResponse(offerSchemaUrl, pagination) {
+                  log.info("/offers")
+                  offersDataSource.offers(
+                    pagination.limit,
+                    pagination.offset,
+                    OfferFilter(status = availabilityStatus)
+                  )
+                }) {
+                  case Success(response) => complete(response)
+                  case Failure(exception) => routingExceptionHandler(exception)
+                }
             }
           }
         }
       }
     } ~ path("offers" / IntNumber) { id =>
       get {
-        respondWithCacheHeaders {
-          complete {
-            log.info(s"/offers/$id")
-            toResponse(offerSchemaUrl) {
-              offersDataSource.offer(id)
-            }
+        complete {
+          log.info(s"/offers/$id")
+          toResponse(offerSchemaUrl) {
+            offersDataSource.offer(id)
           }
         }
       }

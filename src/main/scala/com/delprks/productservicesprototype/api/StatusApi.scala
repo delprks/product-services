@@ -11,10 +11,8 @@ trait StatusApi extends JsonSerializers
   val statusRoutes = {
     path("status") {
       get {
-        respondWithNoCacheHeaders {
-          complete {
-            ApiStatus("OK")
-          }
+        complete {
+          ApiStatus("OK")
         }
       }
     }

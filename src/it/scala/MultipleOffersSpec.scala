@@ -16,7 +16,6 @@ class MultipleOffersSpec extends AbstractOffersSpec {
         status must be equalTo StatusCodes.OK
         contentType must be equalTo `application/json`
         responseAs[Response[Offer]].total must be > 0
-        header("Cache-Control").get.value must be equalTo "public, max-age=300, s-maxage=300, stale-while-revalidate=7200, stale-if-error=7200"
       }
     }
 
