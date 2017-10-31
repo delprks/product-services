@@ -7,7 +7,7 @@ import com.delprks.productservicesprototype.domain.{OfferEvent, OfferStatusEvent
 import com.delprks.productservicesprototype.domain.marshalling.JsonSerializers
 
 trait OfferDirectives extends JsonSerializers {
-  final val validOfferStatusEvents = List(Status.Cancelled.toString, Status.Restored.toString)
+  final val validOfferStatusEvents = List(Status.Cancelled.toString, Status.Available.toString)
 
   def extractOfferEvent: Directive1[OfferEvent] = entity(as[OfferEvent]) flatMap { offer =>
     provide(offer)

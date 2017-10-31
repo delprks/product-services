@@ -11,7 +11,6 @@ object Status extends Enumeration {
   val Pending = Value("pending")
   val Expired = Value("expired")
   val Cancelled = Value("cancelled")
-  val Restored = Value("restored")
 
   def apply(from: Timestamp, to: Timestamp, status: Option[String] = None): Status.Value = {
     val timestampToDate = (timestamp: Timestamp) => new DateTime(timestamp)

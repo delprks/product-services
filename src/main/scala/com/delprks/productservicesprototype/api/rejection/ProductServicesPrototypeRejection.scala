@@ -20,7 +20,7 @@ case class InvalidPageLimitRejection(maximumPageLimit: Int) extends ProductServi
 
 case object InvalidStatusTypeRejection extends ProductServicesPrototypeRejection {
   val statusCode = StatusCodes.BadRequest
-  val message = s"Invalid value for status. Values supported: available, pending, and expired, or comma-separated combinations"
+  val message = s"Invalid value for status. Values supported: available, pending, expired, and cancelled"
 }
 
 case object InvalidHeadersRejection extends ProductServicesPrototypeRejection {

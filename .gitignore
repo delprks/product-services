@@ -27,3 +27,4 @@ project/sbt-ui.sbt
 target/
 
 product-services-prototype
+ds-product-services.trace.db

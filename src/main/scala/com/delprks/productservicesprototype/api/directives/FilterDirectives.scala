@@ -6,29 +6,27 @@ import com.delprks.productservicesprototype.api.rejection.InvalidStatusTypeRejec
 import com.delprks.productservicesprototype.domain.Status
 
 trait FilterDirectives {
-  private val SupportedStatusTypes = Set("available", "pending", "expired")
+  private val SupportedStatusTypes = Set("available", "pending", "expired", "cancelled")
 
-  def availabilityStatus: Directive1[Seq[Status.Type]] = parameter("status".as[String].?).flatMap {
+  def availabilityStatus: Directive1[Option[Status.Type]] = parameter("status".as[String].?).flatMap {
     case Some(statusType) =>
-      isValidStatus(statusType) match {
-        case true => provide {
-          def toStatusType(s: String): Status.Type = s match {
-            case "available" => Status.Available
-            case "pending" => Status.Pending
-            case "expired" => Status.Expired
+      if (isValidStatus(statusType)) {
+        provide {
+          statusType match {
+            case "available" => Some(Status.Available)
+            case "pending" => Some(Status.Pending)
+            case "expired" => Some(Status.Expired)
+            case "cancelled" => Some(Status.Cancelled)
           }
-
-          statusType.split(",").map(toStatusType)
         }
-
-        case false => reject(InvalidStatusTypeRejection)
+      } else {
+        reject(InvalidStatusTypeRejection)
       }
 
-    case _ => provide(List())
+    case _ => provide(None)
   }
 
-  def isValidStatus(programmeType: String): Boolean =
-    programmeType.split(",").forall(SupportedStatusTypes.contains)
+  def isValidStatus(status: String): Boolean = SupportedStatusTypes.contains(status)
 
   def userId: Directive1[Option[Int]] = parameter("user_id".as[Int].?).flatMap {
     case Some(userId) => provide(Some(userId))
