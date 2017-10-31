@@ -3,15 +3,20 @@ package com.delprks.productservicesprototype.api
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.delprks.productservicesprototype.api.directives.CustomDirectives
+import com.delprks.productservicesprototype.api.error.ProductServicesPrototypeExceptionHandler
+import com.delprks.productservicesprototype.client.OfferFilter
 import com.delprks.productservicesprototype.config.Config
 import com.delprks.productservicesprototype.datasource.DataSource
 import com.delprks.productservicesprototype.domain.marshalling.JsonSerializers
 import org.slf4s.Logging
 
+import scala.util.{Failure, Success}
+
 trait OffersApi extends JsonSerializers
   with CustomDirectives
   with Config
-  with Logging {
+  with Logging
+  with ProductServicesPrototypeExceptionHandler {
 
   def offersDataSource: DataSource
 
@@ -21,11 +26,19 @@ trait OffersApi extends JsonSerializers
         respondWithCacheHeaders {
           paginate(defaultPageLimit, maximumPageLimit) { pagination =>
             sort { offerSort =>
-              complete {
-                log.info("/offers")
-                toResponse(offerSchemaUrl, pagination) {
-                  offersDataSource.offers(pagination.limit, pagination.offset)
-                }
+              extractFilteringParameters {
+                case (availabilityStatus) =>
+                  onComplete(toResponse(offerSchemaUrl, pagination) {
+                    log.info("/offers")
+                    offersDataSource.offers(
+                      pagination.limit,
+                      pagination.offset,
+                      OfferFilter(status = availabilityStatus)
+                    )
+                  }) {
+                    case Success(response) => complete(response)
+                    case Failure(exception) => routingExceptionHandler(exception)
+                  }
               }
             }
           }

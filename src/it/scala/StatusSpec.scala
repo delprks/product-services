@@ -2,7 +2,7 @@ import akka.http.scaladsl.model.ContentTypes.`application/json`
 import akka.http.scaladsl.model.StatusCodes.OK
 import akka.http.scaladsl.testkit.Specs2RouteTest
 import com.delprks.productservicesprototype.api.Api
-import com.delprks.productservicesprototype.domain.response.Status
+import com.delprks.productservicesprototype.domain.response.ApiStatus
 import org.specs2.mutable.Specification
 
 class StatusSpec extends Specification
@@ -14,7 +14,7 @@ class StatusSpec extends Specification
       Get("/status") ~> routes ~> check {
         status must be equalTo OK
         contentType must be equalTo `application/json`
-        responseAs[Status] must be equalTo Status("OK")
+        responseAs[ApiStatus] must be equalTo ApiStatus("OK")
         header("Cache-Control").get.value must be equalTo "no-cache, no-store, must-revalidate"
       }
     }

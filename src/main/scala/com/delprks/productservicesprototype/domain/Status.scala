@@ -6,9 +6,9 @@ import org.joda.time.DateTime
 object Status extends Enumeration {
   type Type = Value
 
-  val Available: Status.Value = Value("available")
-  val Pending: Status.Value = Value("pending")
-  val Expired: Status.Value = Value("expired")
+  val Available = Value("available")
+  val Pending = Value("pending")
+  val Expired = Value("expired")
 
   def apply(from: Timestamp, to: Timestamp): Status.Value = {
     val timestampToDate = (timestamp: Timestamp) => new DateTime(timestamp)

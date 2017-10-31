@@ -5,3 +5,10 @@ trait CustomDirectives extends ResponseDirectives
   with CacheDirectives
   with PaginateDirectives
   with SortDirectives
+  with FilterDirectives {
+
+  val extractFilteringParameters = {
+    availabilityStatus
+  }
+
+}

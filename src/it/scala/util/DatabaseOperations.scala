@@ -28,7 +28,8 @@ trait DatabaseOperations {
           available_to TIMESTAMP NOT NULL,
           starting_price INT NOT NULL,
           currency VARCHAR(40) NOT NULL,
-          category VARCHAR(255) NOT NULL
+          category VARCHAR(255) NOT NULL,
+          status VARCHAR(40) NOT NULL
         )
       """), Duration.Inf)
   }
@@ -43,7 +44,8 @@ trait DatabaseOperations {
     title: String = randomString(10),
     availableFrom: Timestamp = randomSqlTimestamp(),
     availableTo: Timestamp = randomSqlTimestamp(),
-    category: String = randomString(10)
+    category: String = randomString(10),
+    status: String = randomString(10)
   ): Unit = {
     Await.result(database.run(
       sqlu"""
@@ -59,7 +61,8 @@ trait DatabaseOperations {
           $availableTo,
           ${randomInteger()},
           ${randomString()},
-          $category
+          $category,
+          $status
         );
       """), Duration.Inf)
   }
