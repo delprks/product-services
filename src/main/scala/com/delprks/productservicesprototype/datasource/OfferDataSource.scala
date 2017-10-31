@@ -10,4 +10,5 @@ trait OfferDataSource {
   def offer(id: Int): Future[Option[Offer]]
   def offers(limit: Int, offset: Int, filter: OfferFilter = OfferFilter()): Future[MultiEntityResponseData[Offer]]
   def create(offer: OfferEvent): Future[Int]
+  def updateStatus(offerId: Int, offerStatus: String): Future[Int]
 }

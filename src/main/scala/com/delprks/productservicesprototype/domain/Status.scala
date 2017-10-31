@@ -1,6 +1,7 @@
 package com.delprks.productservicesprototype.domain
 
 import java.sql.Timestamp
+
 import org.joda.time.DateTime
 
 object Status extends Enumeration {
@@ -9,12 +10,16 @@ object Status extends Enumeration {
   val Available = Value("available")
   val Pending = Value("pending")
   val Expired = Value("expired")
+  val Cancelled = Value("cancelled")
+  val Restored = Value("restored")
 
-  def apply(from: Timestamp, to: Timestamp): Status.Value = {
+  def apply(from: Timestamp, to: Timestamp, status: Option[String] = None): Status.Value = {
     val timestampToDate = (timestamp: Timestamp) => new DateTime(timestamp)
     val now = DateTime.now()
 
-    if (timestampToDate(from).isBefore(now) && timestampToDate(to).isAfter(now)) {
+    if (status.getOrElse("") == Cancelled.toString) {
+      Cancelled
+    } else if (timestampToDate(from).isBefore(now) && timestampToDate(to).isAfter(now)) {
       Available
     } else if (timestampToDate(from).isAfter(now)) {
       Pending

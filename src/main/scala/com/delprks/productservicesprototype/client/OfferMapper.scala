@@ -19,7 +19,7 @@ object OfferMapper {
       condition = offerData.condition,
       availableFrom = timestampToString(offerData.availableFrom),
       availableTo = timestampToString(offerData.availableTo),
-      status = Status(offerData.availableFrom, offerData.availableTo),
+      status = Status(offerData.availableFrom, offerData.availableTo, Some(offerData.status)),
       startingPrice = offerData.startingPrice,
       currency = offerData.currency,
       category = offerData.category

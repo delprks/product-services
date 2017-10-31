@@ -18,12 +18,17 @@ case class InvalidPageLimitRejection(maximumPageLimit: Int) extends ProductServi
   val message = s"Page limit must be between 0 and $maximumPageLimit"
 }
 
-case class InvalidStatusTypeRejection() extends ProductServicesPrototypeRejection {
+case object InvalidStatusTypeRejection extends ProductServicesPrototypeRejection {
   val statusCode = StatusCodes.BadRequest
   val message = s"Invalid value for status. Values supported: available, pending, and expired, or comma-separated combinations"
 }
 
-case class InvalidHeadersRejection() extends ProductServicesPrototypeRejection {
+case object InvalidHeadersRejection extends ProductServicesPrototypeRejection {
   val statusCode = StatusCodes.BadRequest
   val message = s"'Content-Type' header must be 'application/json'"
+}
+
+case object InvalidOfferStatusEventRejection extends ProductServicesPrototypeRejection {
+  val statusCode = StatusCodes.BadRequest
+  val message = s"Invalid value for updating status. Values supported: cancelled, restored"
 }

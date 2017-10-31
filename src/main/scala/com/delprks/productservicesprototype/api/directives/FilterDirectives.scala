@@ -21,7 +21,7 @@ trait FilterDirectives {
           statusType.split(",").map(toStatusType)
         }
 
-        case false => reject(InvalidStatusTypeRejection())
+        case false => reject(InvalidStatusTypeRejection)
       }
 
     case _ => provide(List())

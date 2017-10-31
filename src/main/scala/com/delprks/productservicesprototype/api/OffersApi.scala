@@ -59,6 +59,17 @@ trait OffersApi extends JsonSerializers
           }
         }
       }
+    } ~ path("offers" / IntNumber / "status") { id =>
+      put {
+        jsonContentType {
+          extractOfferStatusEvent { offerStatus =>
+            onComplete(offersDataSource.updateStatus(id, offerStatus.status)) {
+              case Success(_) => complete(StatusCodes.Accepted)
+              case Failure(exception) => routingExceptionHandler(exception)
+            }
+          }
+        }
+      }
     }
   }
 }
