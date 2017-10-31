@@ -6,6 +6,7 @@ import com.delprks.productservicesprototype.config.Config
 import com.delprks.productservicesprototype.domain.{Offer, OfferEvent, Status}
 import org.joda.time.DateTime
 import slick.driver.PostgresDriver.api._
+
 import scala.language.implicitConversions
 import scala.concurrent.{ExecutionContext, Future}
 import slick.jdbc.GetResult
@@ -21,7 +22,8 @@ case class OfferQueryResult(
   availableTo: Timestamp,
   startingPrice: Int,
   currency: String,
-  category: String
+  category: String,
+  status: String
 )
 
 case class CreateOfferProps(
@@ -55,7 +57,8 @@ class OfferClient(database: Database)
       availableTo = result.nextTimestamp(),
       startingPrice = result.nextInt(),
       currency = result.nextString(),
-      category = result.nextString()
+      category = result.nextString(),
+      status = result.nextString()
     )
   }
 
@@ -72,7 +75,8 @@ class OfferClient(database: Database)
          available_to,
          starting_price,
          currency,
-         category
+         category,
+         status
          FROM main.offer
          #${useFilters(filter)}
       """.as[OfferQueryResult]
@@ -91,7 +95,8 @@ class OfferClient(database: Database)
          available_to,
          starting_price,
          currency,
-         category
+         category,
+         status
          FROM main.offer
          WHERE id = $offerId
          LIMIT 1
@@ -162,6 +167,12 @@ class OfferClient(database: Database)
       """
   }
 
+  def updateOfferStatusQuery(offerId: Int, offerStatus: String): DBIO[Int] = {
+    sqlu"""
+       UPDATE main.offer SET status = $offerStatus WHERE id = $offerId
+      """
+  }
+
   def offers(offset: Int, limit: Int, filter: OfferFilter = OfferFilter()): Future[Seq[Offer]] = {
     for {
       offersQueryResult <- database run offersQuery(offset, limit, filter)
@@ -190,6 +201,10 @@ class OfferClient(database: Database)
     )
 
     database run createOfferQuery(offerQuery)
+  }
+
+  def updateStatus(offerId: Int, offerStatus: String): Future[Int] = {
+    database run updateOfferStatusQuery(offerId, offerStatus)
   }
 
   def offer(offerId: Int): Future[Option[Offer]] = {

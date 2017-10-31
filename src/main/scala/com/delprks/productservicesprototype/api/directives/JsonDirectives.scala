@@ -10,6 +10,6 @@ trait JsonDirectives extends ErrorResponseDirectives {
     case ContentTypes.`application/json` =>
       route
     case _ =>
-      reject(InvalidHeadersRejection())
+      reject(InvalidHeadersRejection)
   }
 }

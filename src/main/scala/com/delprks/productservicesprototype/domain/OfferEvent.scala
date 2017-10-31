@@ -12,3 +12,7 @@ case class OfferEvent(
   currency: String,
   category: String
 )
+
+case class OfferStatusEvent(
+  status: String
+)

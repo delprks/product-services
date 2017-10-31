@@ -23,4 +23,6 @@ class OfferDataSourceImpl(offersClient: OfferClient)
 
   override def create(offer: OfferEvent): Future[Int] = offersClient.create(offer)
 
+  override def updateStatus(offerId: Int, offerStatus: String): Future[Int] = offersClient.updateStatus(offerId, offerStatus)
+
 }
