@@ -4,7 +4,7 @@ import com.delprks.productservicesprototype.domain.Offer
 import com.delprks.productservicesprototype.domain.response.Response
 import util.AbstractOffersSpec
 
-class StatusFilterSpec extends AbstractOffersSpec {
+class OfferStatusFilterSpec extends AbstractOffersSpec {
 
   "The service" should {
 

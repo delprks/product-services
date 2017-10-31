@@ -6,7 +6,8 @@ trait CustomDirectives extends ResponseDirectives
   with FilterDirectives {
 
   val extractFilteringParameters = {
-    availabilityStatus
+    availabilityStatus &
+    userId
   }
 
 }

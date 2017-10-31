@@ -25,13 +25,13 @@ trait OffersApi extends JsonSerializers
       get {
         paginate(defaultPageLimit, maximumPageLimit) { pagination =>
           extractFilteringParameters {
-            case (availabilityStatus) =>
+            case (availabilityStatus, userId) =>
               onComplete(toResponse(offerSchemaUrl, pagination) {
                 log.info("/offers")
                 offersDataSource.offers(
                   pagination.limit,
                   pagination.offset,
-                  OfferFilter(status = availabilityStatus)
+                  OfferFilter(status = availabilityStatus, userId = userId)
                 )
               }) {
                 case Success(response) => complete(response)
