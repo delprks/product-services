@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import com.delprks.productservicesprototype.client.OfferClient
 import com.delprks.productservicesprototype.config.Config
-import com.delprks.productservicesprototype.datasource.{DataSource, OffersDataSourceImpl}
+import com.delprks.productservicesprototype.datasource.{OfferDataSource, OfferDataSourceImpl}
 import slick.driver.SQLiteDriver.api._
 import scala.concurrent.ExecutionContext
 
@@ -18,6 +18,6 @@ object ProductServicesPrototypeContext extends Config {
 
   private val offersClient = new OfferClient(database)(dbOperations)
 
-  val offersDataSource: DataSource = new OffersDataSourceImpl(offersClient)(cpuOperations)
+  val offersDataSource: OfferDataSource = new OfferDataSourceImpl(offersClient)(cpuOperations)
 
 }

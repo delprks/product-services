@@ -2,12 +2,12 @@ package com.delprks.productservicesprototype.datasource
 
 import com.delprks.productservicesprototype.api.directives.ResponseDirectives.MultiEntityResponseData
 import com.delprks.productservicesprototype.client.{OfferClient, OfferFilter}
-import com.delprks.productservicesprototype.domain.Offer
+import com.delprks.productservicesprototype.domain.{Offer, OfferEvent}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class OffersDataSourceImpl(offersClient: OfferClient)
-  (implicit executionContext: ExecutionContext) extends DataSource {
+class OfferDataSourceImpl(offersClient: OfferClient)
+  (implicit executionContext: ExecutionContext) extends OfferDataSource {
 
   override def offer(id: Int): Future[Option[Offer]] = offersClient.offer(id)
 
@@ -20,5 +20,7 @@ class OffersDataSourceImpl(offersClient: OfferClient)
       total = total
     )
   }
+
+  override def create(offer: OfferEvent): Future[Int] = offersClient.create(offer)
 
 }

@@ -1,12 +1,13 @@
 package com.delprks.productservicesprototype.api
 
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.delprks.productservicesprototype.api.directives.CustomDirectives
 import com.delprks.productservicesprototype.api.error.ProductServicesPrototypeExceptionHandler
 import com.delprks.productservicesprototype.client.OfferFilter
 import com.delprks.productservicesprototype.config.Config
-import com.delprks.productservicesprototype.datasource.DataSource
+import com.delprks.productservicesprototype.datasource.OfferDataSource
 import com.delprks.productservicesprototype.domain.marshalling.JsonSerializers
 import org.slf4s.Logging
 
@@ -18,7 +19,7 @@ trait OffersApi extends JsonSerializers
   with Logging
   with ProductServicesPrototypeExceptionHandler {
 
-  def offersDataSource: DataSource
+  def offersDataSource: OfferDataSource
 
   val offerRoutes: Route = {
     path("offers") {
@@ -37,6 +38,15 @@ trait OffersApi extends JsonSerializers
                 case Success(response) => complete(response)
                 case Failure(exception) => routingExceptionHandler(exception)
               }
+          }
+        }
+      } ~ post {
+        jsonContentType {
+          extractOfferEvent { offer =>
+            onComplete(offersDataSource.create(offer)) {
+              case Success(_) => complete(StatusCodes.Accepted)
+              case Failure(exception) => routingExceptionHandler(exception)
+            }
           }
         }
       }

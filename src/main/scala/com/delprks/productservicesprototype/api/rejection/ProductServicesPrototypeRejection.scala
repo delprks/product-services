@@ -22,3 +22,8 @@ case class InvalidStatusTypeRejection() extends ProductServicesPrototypeRejectio
   val statusCode = StatusCodes.BadRequest
   val message = s"Invalid value for status. Values supported: available, pending, and expired, or comma-separated combinations"
 }
+
+case class InvalidHeadersRejection() extends ProductServicesPrototypeRejection {
+  val statusCode = StatusCodes.BadRequest
+  val message = s"'Content-Type' header must be 'application/json'"
+}
