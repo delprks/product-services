@@ -1,25 +1,21 @@
 package com.delprks.productservicesprototype.api
 
-import akka.actor.ActorSystem
 import akka.http.scaladsl.server.Directives._
-import akka.stream.Materializer
+import akka.http.scaladsl.server.Route
 import com.delprks.productservicesprototype.ProductServicesPrototypeContext
 import com.delprks.productservicesprototype.api.error.ProductServicesPrototypeExceptionHandler
 import com.delprks.productservicesprototype.api.rejection.ProductServicesPrototypeRejectionHandler
 import com.delprks.productservicesprototype.datasource.DataSource
 
-import scala.concurrent.ExecutionContextExecutor
-
-trait Api extends StatusApi
-  with OffersApi
+trait Api extends OffersApi
   with ProductServicesPrototypeRejectionHandler
   with ProductServicesPrototypeExceptionHandler {
 
   override def offersDataSource: DataSource = ProductServicesPrototypeContext.offersDataSource
 
-  lazy val routes = {
+  lazy val routes: Route = {
     logRequestResult("product-services-prototype") {
-      statusRoutes ~ offerRoutes
+      offerRoutes
     }
   }
 }

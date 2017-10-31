@@ -35,17 +35,6 @@ trait ResponseDirectives {
       )
     }
   }
-
-  def toResponse[T](schema: String, singleResult: T): Response[T] = {
-
-    Response(
-      `$schema` = schema,
-      total = 1,
-      limit = 1,
-      offset = 0,
-      results = Seq(singleResult)
-    )
-  }
 }
 
 object ResponseDirectives {

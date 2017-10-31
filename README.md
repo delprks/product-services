@@ -32,11 +32,6 @@ or
 sbt clean coverage it:test
 ```
 
-Run performance tests with [Taurus](https://gettaurus.org/install/Installation/):
-```
-bzt performance/taurus.yml
-```
-
 ### Check style
 
 ```
@@ -48,12 +43,5 @@ sbt test:scalastyle
 ```
 ...to run scalastyle on the test code.
 
-## Deployment
-
-## Infrastructure
-The CloudFormation infrastructure templates can be found in /infrastructure and created using AWS CLI
-
-## Deployment
-
 ### Logging
-Logging is configured with [SLF4J](https://www.slf4j.org/) using a [Logback](https://logback.qos.ch) backend. The [logback configuration file for the deployed application](src/main/resources/logback.deploy.xml) uses a [RollingFileAppender](https://logback.qos.ch/manual/appenders.html#RollingFileAppender) which zips up logs every time the log file reaches a certain size and deletes older zip files if too many are created.
+Logging is configured with [SLF4J](https://www.slf4j.org/) using a [Logback](https://logback.qos.ch) backend.

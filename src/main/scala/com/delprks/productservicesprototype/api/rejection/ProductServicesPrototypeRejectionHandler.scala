@@ -9,7 +9,7 @@ import com.delprks.productservicesprototype.config.Config
 trait ProductServicesPrototypeRejectionHandler extends ErrorResponseDirectives
   with Config {
 
-  implicit val rejectionHandler = RejectionHandler.newBuilder()
+  implicit val rejectionHandler: RejectionHandler = RejectionHandler.newBuilder()
     .handle { case productServicesPrototypeRejection: ProductServicesPrototypeRejection =>
       completeWithError(errorSchemaUrl, errorDocumentationUrl) {
         ErrorResponseData(productServicesPrototypeRejection.statusCode, productServicesPrototypeRejection.message)

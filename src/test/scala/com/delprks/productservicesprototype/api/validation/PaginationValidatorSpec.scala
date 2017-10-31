@@ -2,7 +2,6 @@ package com.delprks.productservicesprototype.api.validation
 
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
-import scala.util.Random
 
 class PaginationValidatorSpec extends Specification {
   "The isInvalidPageLimit method" should {
@@ -32,9 +31,6 @@ class PaginationValidatorSpec extends Specification {
       validator.isInvalidOffset(0) must beFalse
     }
 
-    "return false for any positive integer" in new PaginationValidatorScope {
-      Seq(1, 7, 3000, Integer.MAX_VALUE).exists(validator.isInvalidOffset) must beFalse
-    }
   }
 }
 

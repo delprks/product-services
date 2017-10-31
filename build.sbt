@@ -1,5 +1,4 @@
 import org.scalastyle.sbt.ScalastylePlugin
-import scala.util.Properties
 
 scalaVersion := "2.11.11"
 
@@ -51,12 +50,6 @@ val applicationDependencies = {
   )
 }
 
-val assemblySettings = Seq(
-  test in assembly := {},
-  assemblyJarName in assembly := s"${name.value}.jar",
-  assemblyMergeStrategy in assembly := ServiceAssembly.aspectjAopMergeStrategy
-)
-
 val `test-all` = taskKey[Unit]("Run Unit tests, integration tests and scalastyle.")
 val testSettings = IntegrationTests.settings ++ Seq(
   `test-all` in Compile := Def.sequential(
@@ -78,4 +71,3 @@ lazy val `product-services-prototype` = (project in file("."))
     fork in run := true
   )
   .settings(testSettings)
-  .settings(assemblySettings)

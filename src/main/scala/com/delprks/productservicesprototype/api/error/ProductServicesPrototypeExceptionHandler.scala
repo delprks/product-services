@@ -11,7 +11,7 @@ trait ProductServicesPrototypeExceptionHandler extends ErrorResponseDirectives
   with Config
   with Logging {
 
-  implicit val routingExceptionHandler =
+  implicit val routingExceptionHandler: ExceptionHandler =
     ExceptionHandler {
       case exception => {
         log.error(exception.getMessage, exception)

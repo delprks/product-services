@@ -24,21 +24,19 @@ trait OffersApi extends JsonSerializers
     path("offers") {
       get {
         paginate(defaultPageLimit, maximumPageLimit) { pagination =>
-          sort { offerSort =>
-            extractFilteringParameters {
-              case (availabilityStatus) =>
-                onComplete(toResponse(offerSchemaUrl, pagination) {
-                  log.info("/offers")
-                  offersDataSource.offers(
-                    pagination.limit,
-                    pagination.offset,
-                    OfferFilter(status = availabilityStatus)
-                  )
-                }) {
-                  case Success(response) => complete(response)
-                  case Failure(exception) => routingExceptionHandler(exception)
-                }
-            }
+          extractFilteringParameters {
+            case (availabilityStatus) =>
+              onComplete(toResponse(offerSchemaUrl, pagination) {
+                log.info("/offers")
+                offersDataSource.offers(
+                  pagination.limit,
+                  pagination.offset,
+                  OfferFilter(status = availabilityStatus)
+                )
+              }) {
+                case Success(response) => complete(response)
+                case Failure(exception) => routingExceptionHandler(exception)
+              }
           }
         }
       }

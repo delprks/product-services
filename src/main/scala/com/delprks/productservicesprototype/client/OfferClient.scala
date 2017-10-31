@@ -98,7 +98,7 @@ class OfferClient(database: Database)
 
     val filterQueries = filters.filter(_.nonEmpty)
 
-    if (filterQueries nonEmpty) {
+    if (filterQueries.nonEmpty) {
       filterQueries mkString("WHERE ", " AND ", "")
     } else {
       EmptyQuery
@@ -113,22 +113,16 @@ class OfferClient(database: Database)
 
   def offers(offset: Int, limit: Int, filter: OfferFilter = OfferFilter()): Future[Seq[Offer]] = {
     for {
-      categories <- database run offersQuery(offset, limit, filter)
-      mappedCategories = categories map { categoryData =>
-        OfferMapper mapOffer categoryData
-      } sortBy { mappedCategory =>
-        mappedCategory.id
-      }
-    } yield mappedCategories
+      offersQueryResult <- database run offersQuery(offset, limit, filter)
+      offers = offersQueryResult map OfferMapper.mapOffer
+    } yield offers
   }
 
   def offer(offerId: Int): Future[Option[Offer]] = {
     for {
-      category <- database run offerQuery(offerId)
-      mappedCategory = category map { categoryData =>
-        OfferMapper mapOffer categoryData
-      }
-    } yield mappedCategory
+      offerQueryResult <- database run offerQuery(offerId)
+      offer = offerQueryResult map OfferMapper.mapOffer
+    } yield offer
   }
 
   def offersCount(filter: OfferFilter = OfferFilter()): Future[Int] = database run offersCountQuery(filter)

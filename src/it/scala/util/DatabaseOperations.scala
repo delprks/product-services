@@ -73,8 +73,6 @@ trait DatabaseOperations {
 
   private def randomId(): Int = distinctIdIterator.next()
 
-  private def randomBoolean(): Boolean = Random.nextBoolean()
-
   private def randomInteger(min: Int = 0, max: Int = 100): Int = Random.nextInt(max - min + 1) + min
 
   private def randomString(length: Int = 4): String = Random.alphanumeric.take(length).mkString
