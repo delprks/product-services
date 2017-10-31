@@ -3,7 +3,7 @@ package com.delprks.productservicesprototype.client
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 
-import com.delprks.productservicesprototype.domain.Offer
+import com.delprks.productservicesprototype.domain.{Offer, Status}
 import org.joda.time.DateTime
 
 object OfferMapper {
@@ -19,7 +19,7 @@ object OfferMapper {
       condition = offerData.condition,
       availableFrom = timestampToString(offerData.availableFrom),
       availableTo = timestampToString(offerData.availableTo),
-      available = available(offerData.availableFrom, offerData.availableTo),
+      status = Status(offerData.availableFrom, offerData.availableTo),
       startingPrice = offerData.startingPrice,
       currency = offerData.currency,
       category = offerData.category
@@ -29,11 +29,4 @@ object OfferMapper {
   // creating new instances of SimpleDateFormat to avoid http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6231579
   private def timestampToString(timestamp: Timestamp): String = new SimpleDateFormat(ISO8601).format(timestamp)
 
-  private def timestampToDate(timestamp: Timestamp): DateTime = new DateTime(timestamp)
-
-  private def available(from: Timestamp, to: Timestamp): Boolean = {
-    val now = DateTime.now()
-
-    timestampToDate(from).isBefore(now) && timestampToDate(to).isAfter(now)
-  }
 }

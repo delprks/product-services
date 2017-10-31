@@ -1,4 +1,4 @@
-import com.delprks.productservicesprototype.domain.Offer
+import com.delprks.productservicesprototype.domain.{Offer, Status}
 import com.delprks.productservicesprototype.domain.response.Response
 import util.AbstractOffersSpec
 
@@ -24,7 +24,7 @@ class SingleOfferSpec extends AbstractOffersSpec {
         offer.title shouldEqual "iPhone X"
         offer.availableFrom shouldEqual "2016-06-17T14:20:25Z"
         offer.availableTo shouldEqual "2025-06-17T14:20:25Z"
-        offer.available shouldEqual true
+        offer.status shouldEqual Status.Available
       }
     }
 
@@ -33,7 +33,6 @@ class SingleOfferSpec extends AbstractOffersSpec {
 
       insertOffer(
         id = offerId,
-        title = "iPhone X",
         availableFrom = SQLPastDate,
         availableTo = SQLYesterdayDate
       )
@@ -43,7 +42,25 @@ class SingleOfferSpec extends AbstractOffersSpec {
 
         val offer = response.results.head
 
-        offer.available shouldEqual false
+        offer.status shouldEqual Status.Expired
+      }
+    }
+
+    "show offer as pending if it will be available in future" in new OffersScope {
+      private val offerId = 2250
+
+      insertOffer(
+        id = offerId,
+        availableFrom = SQLFutureDate,
+        availableTo = SQLFutureDate
+      )
+
+      Get(s"/offers/$offerId") ~> routes ~> check {
+        val response = responseAs[Response[Offer]]
+
+        val offer = response.results.head
+
+        offer.status shouldEqual Status.Pending
       }
     }
   }

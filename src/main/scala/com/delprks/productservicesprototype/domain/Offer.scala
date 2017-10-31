@@ -9,7 +9,7 @@ case class Offer(
   condition: String,
   availableFrom: String,
   availableTo: String,
-  available: Boolean,
+  status: Status.Value,
   startingPrice: Int,
   currency: String,
   category: String

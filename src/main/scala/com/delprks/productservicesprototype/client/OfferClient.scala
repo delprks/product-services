@@ -3,7 +3,7 @@ package com.delprks.productservicesprototype.client
 import java.sql.Timestamp
 
 import com.delprks.productservicesprototype.config.Config
-import com.delprks.productservicesprototype.domain.{Kind, Offer}
+import com.delprks.productservicesprototype.domain.{Status, Offer}
 import slick.driver.PostgresDriver.api._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -106,7 +106,7 @@ class OfferClient(database: Database)
 
   private def useKindFilter(filter: OfferFilter) = filter.kind match {
     case Some(kind) => kind match {
-//      case Kind.Promoted => s"url_key IN ${toSqlStringSet(promotedCategories)}"
+//      case Status.Promoted => s"url_key IN ${toSqlStringSet(promotedCategories)}"
       case _ => EmptyQuery
     }
 
