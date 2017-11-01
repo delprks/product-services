@@ -10,12 +10,11 @@ sbt run
 
 You can then access various endpoints locally (this uses local embedded H2 DB as data source), for example:
 
-http://0.0.0.0:8080/offers
-http://0.0.0.0:8080/offers/
-http://0.0.0.0:8080/offers/35
-http://0.0.0.0:8080/offers?status=available
-http://0.0.0.0:8080/offers?user_id=198873
-http://0.0.0.0:8080/offers?user_id=198873&status=pending
+[http://0.0.0.0:8080/offers](http://0.0.0.0:8080/offers)
+[http://0.0.0.0:8080/offers/35](http://0.0.0.0:8080/offers/35)
+[http://0.0.0.0:8080/offers?status=available](http://0.0.0.0:8080/offers?status=available)
+[http://0.0.0.0:8080/offers?user_id=198873](http://0.0.0.0:8080/offers?user_id=198873)
+[http://0.0.0.0:8080/offers?user_id=198873&status=pending](http://0.0.0.0:8080/offers?user_id=198873&status=pending)
 
 ### Running Tests
 
