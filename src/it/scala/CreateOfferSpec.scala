@@ -1,5 +1,5 @@
 import akka.http.scaladsl.model._
-import com.delprks.productservicesprototype.domain.response.Response
+import com.delprks.productservicesprototype.domain.response.Responses
 import com.delprks.productservicesprototype.domain.{Offer, Status}
 import util.AbstractOffersSpec
 
@@ -31,7 +31,7 @@ class CreateOfferSpec extends AbstractOffersSpec {
       }
 
       Get(s"/offers") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[Responses[Offer]]
 
         val offer = response.results.head
 
