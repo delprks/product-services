@@ -30,5 +30,5 @@ case object InvalidHeadersRejection extends ProductServicesPrototypeRejection {
 
 case object InvalidOfferStatusEventRejection extends ProductServicesPrototypeRejection {
   val statusCode = StatusCodes.BadRequest
-  val message = s"Invalid value for updating status. Values supported: cancelled, restored"
+  val message = s"Invalid value for updating status. Values supported: cancelled, available"
 }

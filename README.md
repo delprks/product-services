@@ -14,6 +14,8 @@ You can then access various endpoints locally (this uses local embedded H2 DB as
 
 List of available endpoints is documented in [Wiki](https://github.com/delprks/product-services-prototype/wiki/Supported-Endpoints)
 
+Architecture documentation can be found in the [Architecture](https://github.com/delprks/product-services-prototype/wiki/Architecture) section of the Wiki.
+
 ### Running Tests
 
 Run the unit tests with
