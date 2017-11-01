@@ -1,5 +1,6 @@
+import akka.http.scaladsl.model.StatusCodes
 import com.delprks.productservicesprototype.domain.{Offer, Status}
-import com.delprks.productservicesprototype.domain.response.Response
+import com.delprks.productservicesprototype.domain.response.{Responses, SingleResponse}
 import util.AbstractOffersSpec
 
 class SingleOfferSpec extends AbstractOffersSpec {
@@ -16,15 +17,23 @@ class SingleOfferSpec extends AbstractOffersSpec {
       )
 
       Get(s"/offers/$offerId") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[SingleResponse[Offer]]
 
-        val offer = response.results.head
+        val offer = response.result
 
         offer.id shouldEqual 2250
         offer.title shouldEqual "iPhone X"
         offer.availableFrom shouldEqual "2016-06-17T14:20:25Z"
         offer.availableTo shouldEqual "2025-06-17T14:20:25Z"
         offer.status shouldEqual Status.Available
+      }
+    }
+
+    "return 404 if the offer doesn't exist in the database" in new OffersScope {
+      private val offerId = 2250
+
+      Get(s"/offers/$offerId") ~> routes ~> check {
+        status should be equalTo StatusCodes.NotFound
       }
     }
 
@@ -38,9 +47,9 @@ class SingleOfferSpec extends AbstractOffersSpec {
       )
 
       Get(s"/offers/$offerId") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[SingleResponse[Offer]]
 
-        val offer = response.results.head
+        val offer = response.result
 
         offer.status shouldEqual Status.Expired
       }
@@ -56,9 +65,9 @@ class SingleOfferSpec extends AbstractOffersSpec {
       )
 
       Get(s"/offers/$offerId") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[SingleResponse[Offer]]
 
-        val offer = response.results.head
+        val offer = response.result
 
         offer.status shouldEqual Status.Pending
       }

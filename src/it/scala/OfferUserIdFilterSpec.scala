@@ -1,7 +1,7 @@
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Route
 import com.delprks.productservicesprototype.domain.Offer
-import com.delprks.productservicesprototype.domain.response.Response
+import com.delprks.productservicesprototype.domain.response.Responses
 import util.AbstractOffersSpec
 
 class OfferUserIdFilterSpec extends AbstractOffersSpec {
@@ -14,7 +14,7 @@ class OfferUserIdFilterSpec extends AbstractOffersSpec {
       insertOffer(id = 3, userId = 1)
 
       Get("/offers?user_id=1") ~> Route.seal(routes) ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[Responses[Offer]]
 
         response.total must be equalTo 2
         response.results.length must be equalTo 2
@@ -25,7 +25,7 @@ class OfferUserIdFilterSpec extends AbstractOffersSpec {
 
     "return empty response if the provided user ID doesn't have any associated offers" in new OffersScope {
       Get("/offers?user_id=10") ~> Route.seal(routes) ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[Responses[Offer]]
 
         response.total must be equalTo 0
         response.results.length must be equalTo 0

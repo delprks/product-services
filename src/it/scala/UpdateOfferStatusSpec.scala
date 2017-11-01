@@ -1,6 +1,6 @@
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Route
-import com.delprks.productservicesprototype.domain.response.Response
+import com.delprks.productservicesprototype.domain.response.{Responses, SingleResponse}
 import com.delprks.productservicesprototype.domain.{Offer, Status}
 import util.AbstractOffersSpec
 
@@ -17,9 +17,9 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
       )
 
       Get(s"/offers/$offerId") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[SingleResponse[Offer]]
 
-        response.results.head.status shouldEqual Status.Expired
+        response.result.status shouldEqual Status.Expired
       }
 
       val body: String =
@@ -37,7 +37,7 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
       }
 
       Get(s"/offers?status=cancelled") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[Responses[Offer]]
 
         response.results.head.status shouldEqual Status.Cancelled
       }
@@ -54,9 +54,9 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
       )
 
       Get(s"/offers/$offerId") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[SingleResponse[Offer]]
 
-        response.results.head.status shouldEqual Status.Expired
+        response.result.status shouldEqual Status.Expired
       }
 
       val body: String =
@@ -74,7 +74,7 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
       }
 
       Get(s"/offers") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[Responses[Offer]]
 
         response.results.head.status shouldEqual Status.Expired
       }
@@ -91,9 +91,9 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
       )
 
       Get(s"/offers/$offerId") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[SingleResponse[Offer]]
 
-        response.results.head.status shouldEqual Status.Expired
+        response.result.status shouldEqual Status.Expired
       }
 
       val body: String =
@@ -111,7 +111,7 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
       }
 
       Get(s"/offers") ~> routes ~> check {
-        val response = responseAs[Response[Offer]]
+        val response = responseAs[Responses[Offer]]
 
         response.results.head.status shouldEqual Status.Expired
       }

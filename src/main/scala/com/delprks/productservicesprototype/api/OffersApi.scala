@@ -4,11 +4,13 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.delprks.productservicesprototype.api.directives.CustomDirectives
+import com.delprks.productservicesprototype.api.directives.ErrorResponseDirectives.ErrorResponseData
 import com.delprks.productservicesprototype.api.error.ProductServicesPrototypeExceptionHandler
 import com.delprks.productservicesprototype.client.OfferFilter
 import com.delprks.productservicesprototype.config.Config
 import com.delprks.productservicesprototype.datasource.OfferDataSource
 import com.delprks.productservicesprototype.domain.marshalling.JsonSerializers
+import org.omg.CosNaming.NamingContextPackage.NotFound
 import org.slf4s.Logging
 
 import scala.util.{Failure, Success}
@@ -52,11 +54,13 @@ trait OffersApi extends JsonSerializers
       }
     } ~ path("offers" / IntNumber) { id =>
       get {
-        complete {
-          log.info(s"/offers/$id")
-          toResponse(offerSchemaUrl) {
-            offersDataSource.offer(id)
-          }
+        onComplete(offersDataSource.offer(id)) {
+          case Success(None) => completeWithError(
+            schemaUrl = errorSchemaUrl,
+            documentationUrl = errorDocumentationUrl
+          )(ErrorResponseData(statusCode = StatusCodes.NotFound, message = s"$id was not found"))
+          case Success(Some(offer)) => complete(toResponse(offerSchemaUrl)(offer))
+          case Failure(exception) => routingExceptionHandler(exception)
         }
       }
     } ~ path("offers" / IntNumber / "status") { id =>

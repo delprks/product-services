@@ -2,17 +2,18 @@ package com.delprks.productservicesprototype.api.directives
 
 import com.delprks.productservicesprototype.api.directives.ResponseDirectives.MultiEntityResponseData
 import com.delprks.productservicesprototype.api.params.Paginate
-import com.delprks.productservicesprototype.domain.response.Response
+import com.delprks.productservicesprototype.domain.response.{Responses, SingleResponse}
+
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
 trait ResponseDirectives {
   implicit def executor: ExecutionContextExecutor
 
   def toResponse[T](schema: String, pagination: Paginate)
-    (resultsFuture: Future[MultiEntityResponseData[T]]): Future[Response[T]] = {
+    (resultsFuture: Future[MultiEntityResponseData[T]]): Future[Responses[T]] = {
 
     resultsFuture.map { results =>
-      Response(
+      Responses(
         `$schema` = schema,
         total = results.total,
         limit = pagination.limit,
@@ -22,18 +23,11 @@ trait ResponseDirectives {
     }
   }
 
-  def toResponse[T](schema: String)
-    (resultsFuture: Future[Option[T]]): Future[Response[T]] = {
-
-    resultsFuture.map { results =>
-      Response(
-        `$schema` = schema,
-        total = 1,
-        limit = 1,
-        offset = 0,
-        results = results.toSeq
-      )
-    }
+  def toResponse[T](schema: String)(result: T): SingleResponse[T] = {
+    SingleResponse(
+      `$schema` = schema,
+      result = result
+    )
   }
 }
 
