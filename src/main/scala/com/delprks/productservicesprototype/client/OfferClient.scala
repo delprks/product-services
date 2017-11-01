@@ -77,7 +77,7 @@ class OfferClient(database: Database)
          currency,
          category,
          status
-         FROM main.offer
+         FROM public.offer
          #${useFilters(filter)}
       """.as[OfferQueryResult]
   }
@@ -97,7 +97,7 @@ class OfferClient(database: Database)
          currency,
          category,
          status
-         FROM main.offer
+         FROM public.offer
          WHERE id = $offerId
          LIMIT 1
       """.as[OfferQueryResult].headOption
@@ -106,7 +106,7 @@ class OfferClient(database: Database)
   def offersCountQuery(filter: OfferFilter): DBIO[Int] = {
     sql"""
        SELECT COUNT(*)
-       FROM main.offer
+       FROM public.offer
        #${useFilters(filter)}
       """.as[Int].head
   }
@@ -126,10 +126,12 @@ class OfferClient(database: Database)
     }
   }
 
-  private def useStatusFilter(filter: OfferFilter) = if (filter.status.nonEmpty) {
-    s"status IN ${toSqlStringSet(filter.status.map(_.toString))}"
-  } else {
-    EmptyQuery
+  private def useStatusFilter(filter: OfferFilter): String = filter.status match {
+    case Some(status) if status == Status.Available => "available_from < now() AND available_to > now() AND status = 'available'"
+    case Some(status) if status == Status.Pending => "available_from > now() AND status = 'available'"
+    case Some(status) if status == Status.Expired => "available_to < now() AND status = 'available'"
+    case Some(status) if status == Status.Cancelled => "status = 'cancelled'"
+    case _ => "status = 'available'"
   }
 
   private def useUserIdFilter(filter: OfferFilter) = filter.userId match {
@@ -139,7 +141,7 @@ class OfferClient(database: Database)
 
   def createOfferQuery(offer: CreateOfferProps): DBIO[Int] = {
     sqlu"""
-       INSERT INTO main.offer (
+       INSERT INTO public.offer (
          user_id,
          title,
          description,
@@ -169,7 +171,7 @@ class OfferClient(database: Database)
 
   def updateOfferStatusQuery(offerId: Int, offerStatus: String): DBIO[Int] = {
     sqlu"""
-       UPDATE main.offer SET status = $offerStatus WHERE id = $offerId
+       UPDATE public.offer SET status = $offerStatus WHERE id = $offerId
       """
   }
 
@@ -195,7 +197,7 @@ class OfferClient(database: Database)
       availableFrom = offer.availableFrom,
       availableTo = offer.availableTo,
       startingPrice = offer.startingPrice,
-      status = Status(offer.availableFrom, offer.availableTo).toString,
+      status = Status.Available.toString,
       currency = offer.currency,
       category = offer.category
     )

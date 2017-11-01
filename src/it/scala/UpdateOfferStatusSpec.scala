@@ -36,7 +36,7 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
         status must beEqualTo(StatusCodes.Accepted)
       }
 
-      Get(s"/offers") ~> routes ~> check {
+      Get(s"/offers?status=cancelled") ~> routes ~> check {
         val response = responseAs[Response[Offer]]
 
         response.results.head.status shouldEqual Status.Cancelled
@@ -44,7 +44,7 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
 
     }
 
-    "set the status to restored if the order exists, and return it based on availability dates" in new OffersScope {
+    "set the status to available if the order exists" in new OffersScope {
       private val offerId = 2250
 
       insertOffer(
@@ -62,7 +62,7 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
       val body: String =
         """
           |{
-          |	"status": "restored"
+          |	"status": "available"
           |}
         """.stripMargin
 
@@ -81,7 +81,7 @@ class UpdateOfferStatusSpec extends AbstractOffersSpec {
 
     }
 
-    "return 400 if supplied status is not cancelled or restored" in new OffersScope {
+    "return 400 if supplied status is not cancelled or available" in new OffersScope {
       private val offerId = 2250
 
       insertOffer(

@@ -41,12 +41,11 @@ val applicationDependencies = {
     "io.kamon"               %% "kamon-core"        % kamonVersion,
     "io.kamon"               %% "kamon-statsd"      % kamonVersion,
     "io.kamon"               %% "kamon-akka-http"   % kamonVersion,
-    "org.xerial"             %  "sqlite-jdbc"       % "3.20.1",
+    "com.h2database"         %  "h2"                % "1.4.193",
     "com.typesafe.akka"      %% "akka-http-testkit" % akkaHttpVersion % "test",
     "org.specs2"             %% "specs2-core"       % specs2Version   % "it,test",
     "org.specs2"             %% "specs2-mock"       % specs2Version   % "it,test",
-    "com.github.tomakehurst" %  "wiremock"          % wireMockVersion % "it,test",
-    "com.h2database"         %  "h2"                % "1.4.193"       % "it,test"
+    "com.github.tomakehurst" %  "wiremock"          % wireMockVersion % "it,test"
   )
 }
 

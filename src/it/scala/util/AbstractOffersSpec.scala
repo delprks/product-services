@@ -46,19 +46,4 @@ trait AbstractOffersSpec extends Specification
     implicit def executor: ExecutionContextExecutor = system.dispatcher
   }
 
-  protected val SQLPastDate: Timestamp = {
-    val dateTime = new DateTime("2016-06-17T14:20:25").getMillis
-    new Timestamp(dateTime)
-  }
-
-  protected val SQLFutureDate: Timestamp = {
-    val dateTime = new DateTime("2025-06-17T14:20:25").getMillis
-    new Timestamp(dateTime)
-  }
-
-  protected val SQLYesterdayDate: Timestamp = {
-    val dateTime = DateTime.now().minusDays(1).getMillis
-    new Timestamp(dateTime)
-  }
-
 }
