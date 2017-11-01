@@ -12,13 +12,7 @@ You can then access various endpoints locally (this uses local embedded H2 DB as
 
 [http://0.0.0.0:8080/offers](http://0.0.0.0:8080/offers)
 
-[http://0.0.0.0:8080/offers/35](http://0.0.0.0:8080/offers/35)
-
-[http://0.0.0.0:8080/offers?status=available](http://0.0.0.0:8080/offers?status=available)
-
-[http://0.0.0.0:8080/offers?user_id=198873](http://0.0.0.0:8080/offers?user_id=198873)
-
-[http://0.0.0.0:8080/offers?user_id=198873&status=pending](http://0.0.0.0:8080/offers?user_id=198873&status=pending)
+List of available endpoints is documented in [Wiki](https://github.com/delprks/product-services-prototype/wiki/Supported-Endpoints)
 
 ### Running Tests
 
