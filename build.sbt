@@ -18,10 +18,7 @@ val applicationDependencies = {
   val jodaConvertVersion        = "1.8"
   val logbackVersion            = "1.2.1"
   val slf4sVersion              = "1.7.12"
-  val kamonVersion              = "0.6.7"
-  val monitoringClientVersion   = "1.1.0"
   val specs2Version             = "3.8.9"
-  val wireMockVersion           = "2.6.0"
   val slickVersion              = "3.1.1"
 
   Seq(
@@ -38,14 +35,10 @@ val applicationDependencies = {
     "org.joda"               %  "joda-convert"      % jodaConvertVersion,
     "ch.qos.logback"         %  "logback-classic"   % logbackVersion,
     "org.slf4s"              %% "slf4s-api"         % slf4sVersion,
-    "io.kamon"               %% "kamon-core"        % kamonVersion,
-    "io.kamon"               %% "kamon-statsd"      % kamonVersion,
-    "io.kamon"               %% "kamon-akka-http"   % kamonVersion,
     "com.h2database"         %  "h2"                % "1.4.193",
     "com.typesafe.akka"      %% "akka-http-testkit" % akkaHttpVersion % "test",
     "org.specs2"             %% "specs2-core"       % specs2Version   % "it,test",
-    "org.specs2"             %% "specs2-mock"       % specs2Version   % "it,test",
-    "com.github.tomakehurst" %  "wiremock"          % wireMockVersion % "it,test"
+    "org.specs2"             %% "specs2-mock"       % specs2Version   % "it,test"
   )
 }
 
