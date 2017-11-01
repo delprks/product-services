@@ -79,6 +79,8 @@ class OfferClient(database: Database)
          status
          FROM public.offer
          #${useFilters(filter)}
+         OFFSET $offset
+         LIMIT $limit
       """.as[OfferQueryResult]
   }
 
